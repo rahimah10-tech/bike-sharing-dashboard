@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -7,8 +9,12 @@ st.set_page_config(page_title="Dashboard Penyewaan Sepeda", layout="wide")
 
 # Load data bersih (hasil cleaning di notebook)
 # main_data.csv = data harian (day_df), hour_data.csv = data per jam (hour_df)
-day_df = pd.read_csv("main_data.csv", parse_dates=["dteday"])
-hour_df = pd.read_csv("hour_data.csv", parse_dates=["dteday"])
+# Path dihitung dari lokasi file dashboard.py ini, bukan dari folder
+# tempat perintah dijalankan — jadi tetap jalan di Streamlit Cloud,
+# yang menjalankannya dari root repo, bukan dari folder dashboard/.
+BASE_DIR = Path(__file__).parent
+day_df = pd.read_csv(BASE_DIR / "main_data.csv", parse_dates=["dteday"])
+hour_df = pd.read_csv(BASE_DIR / "hour_data.csv", parse_dates=["dteday"])
 
 st.title("Dashboard Penyewaan Sepeda — Bike Sharing Dataset")
 st.write(
